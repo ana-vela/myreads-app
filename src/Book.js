@@ -1,11 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import * as BooksAPI from './BooksAPI';
+
 
 class Book extends Component {
+
 render() {
+  let showThumbnail = this.props.book.imageLinks ?
+  this.props.book.imageLinks.thumbnail :
+  '';
   return(
     <div className="book">
       <div className="book-top">
-        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `URL(${this.props.book.imageLinks.thumbnail})` }}></div>
+        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `URL("${showThumbnail}")` }}></div>
         <div className="book-shelf-changer">
           <select
             onChange={(event) => this.props.moveShelf(
