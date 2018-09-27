@@ -6,6 +6,9 @@ render() {
   let showThumbnail = this.props.book.imageLinks ?
   this.props.book.imageLinks.thumbnail :
   '';
+
+  const { title, authors, book, currentShelf } = this.props.book;
+
   return(
     <div className="book">
       <div className="book-top">
@@ -15,7 +18,7 @@ render() {
             onChange={(event) => this.props.moveShelf(
               this.props.book, event.target.value
             )}
-            value={this.props.currentShelf}
+            value={currentShelf}
             >
             <option value="move" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
@@ -25,8 +28,14 @@ render() {
           </select>
         </div>
       </div>
-      <div className="book-title">{this.props.book.title}</div>
-      <div className="book-authors">{this.props.book.authors}</div>
+      <div className="book-title">{title}</div>
+      <div className="book-authors">
+
+        {authors[0]}
+        <br></br>
+        {authors[1]}
+        
+      </div>
     </div>
   );
 }
