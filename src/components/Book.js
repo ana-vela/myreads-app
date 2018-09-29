@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+// import Shelf from './Shelf';
+
 
 class Book extends Component {
 
@@ -7,7 +9,7 @@ render() {
   this.props.book.imageLinks.thumbnail :
   '';
 
-  const { title, authors, book, currentShelf } = this.props.book;
+  const { title, authors } = this.props.book;
 
   return(
     <div className="book">
@@ -18,7 +20,7 @@ render() {
             onChange={(event) => this.props.moveShelf(
               this.props.book, event.target.value
             )}
-            value={currentShelf}
+            value={this.props.currentShelf}
             >
             <option value="move" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
@@ -34,7 +36,7 @@ render() {
         {authors[0]}
         <br></br>
         {authors[1]}
-        
+
       </div>
     </div>
   );
