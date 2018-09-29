@@ -4,62 +4,25 @@ import * as BooksAPI from './BooksAPI';
 
 
 class Shelf extends Component {
-  moveShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf);
 
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books: books })
-    })
-  }
 render() {
+
+const { name, books, moveShelf } = this.props;
 
   return(
         <div className="list-books-content">
           <div>
             <div className="bookshelf">
-              <h2 className="bookshelf-title">{this.props.name}</h2>
+              <h2 className="bookshelf-title">{name}</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
 
-                  {
-                    this.props.books
-                    .filter(book => book.shelf === 'wantToRead')
-                    .map(book => (
+                  { books.map(book => (
                       <li key={book.id}>
-                        <Book
-                          book={book}
-                          moveShelf={this.props.moveShelf}
-                          currentShelf="wantToRead"
-                          />
+                        <Book book={book} moveShelf={moveShelf} currentShelf={book.shelf} />
                       </li>
-                    ))
-                  }
-                  {
-                    this.props.books
-                    .filter(book => book.shelf === 'read')
-                    .map(book => (
-                      <li key={book.id}>
-                        <Book
-                          book={book}
-                          moveShelf={this.props.moveShelf}
-                          currentShelf="read"
-                          />
-                      </li>
-                    ))
-                  }
-                  {
-                    this.props.books
-                    .filter(book => book.shelf === 'currentlyReading')
-                    .map(book => (
-                      <li key={book.id}>
-                        <Book
-                          book={book}
-                          moveShelf={this.props.moveShelf}
-                          currentShelf="currentlyReading"
-                          />
-                      </li>
-                    ))
-                  }
+                    ))}
+
                   </ol>
                 </div>
               </div>
