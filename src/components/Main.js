@@ -25,6 +25,9 @@ class Main extends Component {
   }
 render() {
 
+const { books, moveShelf } = this.props;
+
+
   return(
       <div className="list-books">
         <div className="list-books-title">
@@ -33,16 +36,20 @@ render() {
 
           <div className="list-books-content">
             <div>
-        <Shelf name="Want to Read" books={this.props.books.filter(book => book.shelf === "wantToRead")}
-        moveShelf={this.props.moveShelf}
+        <Shelf name="Want to Read" books={books.filter(book => book.shelf === "wantToRead")}
+        moveShelf={moveShelf}
         />
-        <Shelf name="Currently Reading" books={this.props.books.filter(book => book.shelf === "currentlyReading")}
-         moveShelf={this.props.moveShelf}
+        <Shelf name="Currently Reading" books={books.filter(book => book.shelf === "currentlyReading")}
+         moveShelf={moveShelf}
+
         />
-        <Shelf name="Read" books={this.props.books.filter(book => book.shelf === "read")}
-              moveShelf={this.props.moveShelf}
+        <Shelf name="Read" books={books.filter(book => book.shelf === "read")}
+              moveShelf={moveShelf}
 
              />
+
+         
+
         </div>
         </div>
         {/* search code */}
