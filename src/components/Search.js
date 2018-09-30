@@ -2,43 +2,53 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Book from './Book';
 import * as BooksAPI from './BooksAPI';
+import PropTypes from 'prop-types';
+
 
 class Search extends Component {
 
-  state = {
+  constructor(props) {
+    super(props)
+
+  this.state = {
     query: '',
-    searchedBooks: []
+    bookSearch: []
   }
+}
 
   updateQuery = (query) => {
     this.setState({
       query: query
     })
-    this.updateSearchedBooks(query);
+    this.updateBookSearch(query);
   }
 
-  updateSearchedBooks = (query) => {
+  updateBookSearch = (query) => {
     if (query) {
-      BooksAPI.search(query).then((searchedBooks) => {
-        if (searchedBooks.error) {
-          this.setState({ searchedBooks: [] });
+      BooksAPI.search(query).then((bookSearch) => {
+        if (bookSearch.error) {
+          this.setState({ bookSearch: [] });
         } else {
-          this.setState({ searchedBooks: searchedBooks });
+          this.setState({ bookSearch: bookSearch });
         }
       })
     } else {
-      this.setState({ searchedBooks: [] });
+      this.setState({ bookSearch: [] });
     }
   }
   render() {
+
+const { books, shelfMove, book } = this.props;
+const{ query, bookSearch } = this.state;
+
+console.log(books);
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
 
-          <Link
-            to="/"
-            className="close-search"
-            >Close</Link>
+          <Link to="/" className="close-search">Close</Link>
+          
           <div className="search-books-input-wrapper">
             {/*
               NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -51,7 +61,7 @@ class Search extends Component {
             <input
               type="text"
               placeholder="Search by title"
-              value={this.state.query}
+              value={query}
               onChange={(event) => this.updateQuery(event.target.value)}
               />
           </div>
@@ -60,28 +70,23 @@ class Search extends Component {
         <div className="search-books-results">
 
           <ol className="books-grid">
-            {this.state.searchedBooks.map(searchedBook => {
+            {bookSearch.map(bookSearch => {
               let shelf ="none";
 
-              this.props.books.map(book => (
-                book.id === searchedBook.id ?
+              books.map(book => (
+                book.id === book.id ?
                 shelf = book.shelf :
                 ''
               ));
 
               return (
-              <li key={searchedBook.id}>
-                <Book
-                  book={searchedBook}
-                  moveShelf={this.props.moveShelf}
-                  currentShelf={shelf}
-                  />
+              <li key={bookSearch.id}>
+                <Book book={bookSearch} shelfMove={shelfMove} />
               </li>
-            )
+            );
           })
         }
         </ol>
-
       </div>
     </div>
     );
@@ -89,3 +94,11 @@ class Search extends Component {
 }
 
 export default Search;
+
+Search.propTypes = {
+value: PropTypes.string,
+bookSearch: PropTypes.array,
+book: PropTypes.object,
+books: PropTypes.array,
+updatebookSearch: PropTypes.string
+};
