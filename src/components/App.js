@@ -3,49 +3,54 @@
 //and https://www.youtube.com/watch?v=acJHkd6K5kI&=&feature=youtu.be
 
 
-import React from 'react'
+import React from 'react';
 import { Route } from 'react-router-dom';
 import Search from './Search';
 import Main from './Main';
-import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI';
 
-import '../App.css'
+import '../App.css';
 
 class BooksApp extends React.Component {
-  state = {
-    books: []
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      books: []
   }
+}
 
   componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({books})
+    BooksAPI.getAll().then((res) => {
+      this.setState({books: res})
     })
   }
 
-  moveShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf);
-
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books: books })
+  shelfMove = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+    .then(res => {
+      BooksAPI.getAll().then(res => this.setState({books: res}))
     })
   }
 
   render() {
+
+    const { books } = this.state;
 
     return (
       <div className="app">
 
         <Route exact path="/" render={() => (
           <Main
-            books={this.state.books}
-            moveShelf={this.moveShelf}
+            books={books}
+            shelfMove={this.shelfMove}
             />
         )}/>
 
       <Route path="/search" render ={() => (
           <Search
-            books={this.state.books}
-            moveShelf={this.moveShelf}
+            books={books}
+            shelfMove={this.shelfMove}
             />
         )}/>
 
