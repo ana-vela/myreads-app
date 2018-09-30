@@ -1,32 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Shelf from './Shelf';
-import * as BooksAPI from './BooksAPI';
-
+import PropTypes from 'prop-types';
 
 class Main extends Component {
 
-  state = {
-    books: []
-  }
-
-  componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({books})
-    })
-  }
-
-  moveShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf);
-
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books: books })
-    })
-  }
 render() {
 
-const { books, moveShelf } = this.props;
-
+const { books, shelfMove } = this.props;
 
   return(
       <div className="list-books">
@@ -36,32 +17,31 @@ const { books, moveShelf } = this.props;
 
           <div className="list-books-content">
             <div>
-        <Shelf name="Want to Read" books={books.filter(book => book.shelf === "wantToRead")}
-        moveShelf={moveShelf}
-        />
-        <Shelf name="Currently Reading" books={books.filter(book => book.shelf === "currentlyReading")}
-         moveShelf={moveShelf}
+              <Shelf name="Want to Read" books={books.filter(book => book.shelf === "wantToRead")}
+                shelfMove={shelfMove} />
 
-        />
-        <Shelf name="Read" books={books.filter(book => book.shelf === "read")}
-              moveShelf={moveShelf}
+              <Shelf name="Currently Reading" books={books.filter(book => book.shelf === "currentlyReading")}
+                shelfMove={shelfMove} />
 
-             />
+              <Shelf name="Read" books={books.filter(book => book.shelf === "read")}
+                shelfMove={shelfMove} />
 
-         
+            </div>
+          </div>
+          {/* search code */}
+          <div className="open-search">
+            <Link to="/search">Add a book</Link>
 
+          </div>
         </div>
-        </div>
-        {/* search code */}
-        <div className="open-search">
-          <Link
-            to="/search"
-
-          >Add a book</Link>
-        </div>
-      </div>
-  );
-}
-}
+      );
+    }
+  }
 
 export default Main;
+
+Main.propTypes = {
+shelfMove: PropTypes.func.isRequired,
+books: PropTypes.array,
+shelf: PropTypes.string
+};
