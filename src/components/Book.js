@@ -1,27 +1,42 @@
 import React, { Component } from 'react';
-// import Shelf from './Shelf';
-
+import PropTypes from 'prop-types';
 
 class Book extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      shelf: props.book.shelf
+    }
+  }
+
+  componentDidMount = () => {
+    this.setState({shelf: this.props.book.shelf})
+  }
+
+  shelfMove = (event) => {
+    const shelf = event.target.value;
+    this.props.shelfMove(this.props.books, shelf);
+    this.setState({ shelf });
+  }
 
 render() {
   let showThumbnail = this.props.book.imageLinks ?
   this.props.book.imageLinks.thumbnail :
   '';
 
-  const { title, authors } = this.props.book;
+  const { title,  authors = ['author unknown']} = this.props.book;
+  const { shelfMove, book } = this.props;
+  const { shelf } = this.state;
 
   return(
     <div className="book">
       <div className="book-top">
         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `URL("${showThumbnail}")` }}></div>
         <div className="book-shelf-changer">
-          <select
-            onChange={(event) => this.props.moveShelf(
-              this.props.book, event.target.value
-            )}
-            value={this.props.currentShelf}
-            >
+
+          <select value={shelf ? shelf : 'none'} onChange={(event) => shelfMove(book, event.target.value)} >
+
             <option value="move" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
@@ -30,6 +45,7 @@ render() {
           </select>
         </div>
       </div>
+
       <div className="book-title">{title}</div>
       <div className="book-authors">
 
@@ -44,3 +60,11 @@ render() {
 }
 
 export default Book;
+
+Book.propTypes = {
+showThumbnail: PropTypes.string,
+title: PropTypes.string,
+authors: PropTypes.string,
+book: PropTypes.object,
+value: PropTypes.string
+};
