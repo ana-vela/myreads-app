@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import Book from './Book';
-import * as BooksAPI from './BooksAPI';
-
+import PropTypes from 'prop-types';
 
 class Shelf extends Component {
 
 render() {
 
-const { name, books, moveShelf } = this.props;
+const { name, books, shelfMove } = this.props;
 
   return(
         <div className="list-books-content">
@@ -19,7 +18,7 @@ const { name, books, moveShelf } = this.props;
 
                   { books.map(book => (
                       <li key={book.id}>
-                        <Book book={book} moveShelf={moveShelf} currentShelf={book.shelf} />
+                        <Book book={book} shelfMove={shelfMove} currentShelf={book.shelf} />
                       </li>
                     ))}
 
@@ -32,3 +31,10 @@ const { name, books, moveShelf } = this.props;
       }
     }
 export default Shelf;
+
+Shelf.propTypes = {
+  name: PropTypes.string.isRequired,
+  books: PropTypes.array.isRequired,
+  shelfMove: PropTypes.func.isRequired,
+  currentShelf: PropTypes.string
+};
