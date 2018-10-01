@@ -25,15 +25,15 @@ class Search extends Component {
 
   updateBookSearch = (query) => {
     if (query) {
-      BooksAPI.search(query).then((bookSearch) => {
+      BooksAPI.search(query.trim()).then((bookSearch) => {
         if (bookSearch.error) {
-          this.setState({ bookSearch: [] });
+          return this.setState({ bookSearch: [] });
         } else {
           this.setState({ bookSearch: bookSearch });
         }
       })
     } else {
-      this.setState({ bookSearch: [] });
+      return this.setState({ bookSearch: [] });
     }
   }
   render() {
@@ -48,7 +48,7 @@ console.log(books);
         <div className="search-books-bar">
 
           <Link to="/" className="close-search">Close</Link>
-          
+
           <div className="search-books-input-wrapper">
             {/*
               NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -71,13 +71,6 @@ console.log(books);
 
           <ol className="books-grid">
             {bookSearch.map(bookSearch => {
-              let shelf ="none";
-
-              books.map(book => (
-                book.id === book.id ?
-                shelf = book.shelf :
-                ''
-              ));
 
               return (
               <li key={bookSearch.id}>
