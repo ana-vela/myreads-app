@@ -24,25 +24,24 @@ class Search extends Component {
   shelfMove = (book, shelf) => {
     BooksAPI.update(book, shelf)
     .then(res => {
-
-      BooksAPI.getAll().then(res => this.setState({books: res}))
+      book.shelf = shelf;
       this.setState({shelf: res})
+      BooksAPI.getAll().then(res => this.setState({books: res}))
 
     })
   }
 
 
-  updateQuery = (query) => {
-    this.setState({
-      query: query
-    },
-    this.updateBookSearch(query));
+  updateQuery = (res) => {
+    this.setState({query: res},
+    this.updateBookSearch(res));
   }
 
 //method where books are displayed after query and error handling occurs if there are no books available for a query
+//help for this method from https://www.youtube.com/watch?v=i6L2jLHV9j8
   updateBookSearch = (query) => {
     if (query) {
-      BooksAPI.search(query).then((bookSearch) => {
+      BooksAPI.search(query.trim()).then((bookSearch) => {
         if (bookSearch.error) {
           return this.setState({ bookSearch: [] });
         } else {
