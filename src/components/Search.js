@@ -1,3 +1,7 @@
+
+ // Grateful for guidance from these two walk throughs https://www.youtube.com/watch?v=i6L2jLHV9j8
+//and https://www.youtube.com/watch?v=acJHkd6K5kI&=&feature=youtu.be
+
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Book from './Book';
@@ -10,22 +14,35 @@ class Search extends Component {
   constructor(props) {
     super(props)
 
-  this.state = {
+    this.state = {
     query: '',
     bookSearch: []
   }
 }
 
+// method where shelf is moved and new shelf state is saved
+  shelfMove = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+    .then(res => {
+
+      BooksAPI.getAll().then(res => this.setState({books: res}))
+      this.setState({shelf: res})
+
+    })
+  }
+
+
   updateQuery = (query) => {
     this.setState({
       query: query
-    })
-    this.updateBookSearch(query);
+    },
+    this.updateBookSearch(query));
   }
 
+//method where books are displayed after query and error handling occurs if there are no books available for a query
   updateBookSearch = (query) => {
     if (query) {
-      BooksAPI.search(query.trim()).then((bookSearch) => {
+      BooksAPI.search(query).then((bookSearch) => {
         if (bookSearch.error) {
           return this.setState({ bookSearch: [] });
         } else {
@@ -36,14 +53,16 @@ class Search extends Component {
       return this.setState({ bookSearch: [] });
     }
   }
+
   render() {
 
-const { books, shelfMove, book } = this.props;
-const{ query, bookSearch } = this.state;
-
-console.log(books);
+    //declaring variables for cleaner code
+    const { books, shelfMove, book } = this.props;
+    const{ query, bookSearch } = this.state;
+    const { shelf } = this.props.books;
 
     return (
+
       <div className="search-books">
         <div className="search-books-bar">
 
@@ -70,11 +89,12 @@ console.log(books);
         <div className="search-books-results">
 
           <ol className="books-grid">
+            //book search shown here
             {bookSearch.map(bookSearch => {
 
               return (
               <li key={bookSearch.id}>
-                <Book book={bookSearch} shelfMove={shelfMove} />
+                <Book book={bookSearch} shelfMove={shelfMove} currentShelf={shelf} />
               </li>
             );
           })
