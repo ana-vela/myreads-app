@@ -1,3 +1,7 @@
+
+ // Grateful for guidance from these two walk throughs https://www.youtube.com/watch?v=i6L2jLHV9j8
+//and https://www.youtube.com/watch?v=acJHkd6K5kI&=&feature=youtu.be
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,14 +14,14 @@ class Book extends Component {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.setState({shelf: this.props.book.shelf})
   }
 
   shelfMove = (event) => {
     const shelf = event.target.value;
     this.props.shelfMove(this.props.books, shelf);
-    this.setState({ shelf });
+    this.setState({ shelf: this.props.book.shelf });
   }
 
 render() {
@@ -35,7 +39,7 @@ render() {
         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `URL("${showThumbnail}")` }}></div>
         <div className="book-shelf-changer">
 
-          <select value={shelf ? shelf : 'none'} onChange={(event) => shelfMove(book, event.target.value)} >
+          <select value={shelf || "none"} onChange={(event) => shelfMove(book, event.target.value)} >
 
             <option value="move" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
