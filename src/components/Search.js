@@ -16,15 +16,24 @@ class Search extends Component {
 
     this.state = {
     query: '',
-    bookSearch: []
+    bookSearch: [],
+    books: []
   }
+}
+
+componentDidMount(book, shelf) {
+  BooksAPI.getAll().then((res) => {
+    this.setState({books: res})
+    this.setState({shelf: res})
+
+  })
 }
 
 // method where shelf is moved and new shelf state is saved
   shelfMove = (book, shelf) => {
     BooksAPI.update(book, shelf)
     .then(res => {
-      book.shelf = shelf;
+      book = book.shelf;
       this.setState({shelf: res})
       BooksAPI.getAll().then(res => this.setState({books: res}))
 
@@ -56,7 +65,7 @@ class Search extends Component {
   render() {
 
     //declaring variables for cleaner code
-    const { books, shelfMove, book } = this.props;
+    const {  shelfMove } = this.props;
     const{ query, bookSearch } = this.state;
     const { shelf } = this.props.books;
 
@@ -88,19 +97,32 @@ class Search extends Component {
         <div className="search-books-results">
 
           <ol className="books-grid">
-            {bookSearch.map(bookSearch => {
+          {this.state.books.length > 0 &&
+
+            this.state.books.map(book => {
+
+            const shelved = this.props.books.find(bookSearch =>
+
+              book.id === bookSearch.id );
+
+              if (shelved) {
+                book.shelf = shelved.shelf;
+              } else {
+                book.shelf = "none";
+              }
+              console.log(shelf)
 
               return (
-              <li key={bookSearch.id}>
-                <Book book={bookSearch} shelfMove={shelfMove} currentShelf={shelf} />
-              </li>
-            );
-          })
-        }
+              <li key={bookSearch.id}> <Book book={bookSearch} shelfMove={shelfMove}  /> </li>
+              )
+            }
+            )
+          }
+
         </ol>
       </div>
     </div>
-    );
+  );
   }
 }
 
