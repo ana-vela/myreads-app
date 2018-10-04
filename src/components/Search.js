@@ -40,7 +40,6 @@ componentDidMount(book, shelf) {
     })
   }
 
-
   updateQuery = (res) => {
     this.setState({query: res},
     this.updateBookSearch(res));
@@ -64,10 +63,9 @@ componentDidMount(book, shelf) {
 
   render() {
 
-    //declaring variables for cleaner code
-    const {  shelfMove } = this.props;
-    const{ query, bookSearch } = this.state;
-    const { shelf } = this.props.books;
+    //deconstructing variables for cleaner code
+    const { shelfMove } = this.props;
+    const{ query } = this.state;
 
     return (
 
@@ -97,9 +95,9 @@ componentDidMount(book, shelf) {
         <div className="search-books-results">
 
           <ol className="books-grid">
-          {this.state.books.length > 0 &&
-
-            this.state.books.map(book => {
+            {/*Found a good solution to displaying book shelves in the search results thanks to the help from
+             this walkthrough https://www.youtube.com/watch?v=bpKI3R0nf7E */}
+          {this.state.bookSearch.map(book => {
 
             const shelved = this.props.books.find(bookSearch =>
 
@@ -110,15 +108,10 @@ componentDidMount(book, shelf) {
               } else {
                 book.shelf = "none";
               }
-              console.log(shelf)
-
               return (
-              <li key={bookSearch.id}> <Book book={bookSearch} shelfMove={shelfMove}  /> </li>
-              )
-            }
-            )
-          }
-
+              <li key={book.id}> <Book book={book} shelfMove={shelfMove} /> </li>
+              )}
+            )}
         </ol>
       </div>
     </div>
