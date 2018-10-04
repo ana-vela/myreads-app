@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Book from './Book';
 import PropTypes from 'prop-types';
 
-class Shelf extends Component {
+export default class Shelf extends Component {
 
 render() {
 
@@ -30,7 +30,6 @@ const { name, books, shelfMove } = this.props;
         )
       }
     }
-export default Shelf;
 
 Shelf.propTypes = {
   name: PropTypes.string.isRequired,

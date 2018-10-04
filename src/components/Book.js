@@ -5,7 +5,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Book extends Component {
+export default class Book extends Component {
+
   constructor(props) {
     super(props)
 
@@ -25,6 +26,7 @@ class Book extends Component {
   }
 
 render() {
+
   let showThumbnail = this.props.book.imageLinks ?
   this.props.book.imageLinks.thumbnail :
   '';
@@ -34,6 +36,7 @@ render() {
   const { shelf } = this.state;
 
   return(
+
     <div className="book">
       <div className="book-top">
         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `URL("${showThumbnail}")` }}></div>
@@ -51,24 +54,22 @@ render() {
       </div>
 
       <div className="book-title">{title}</div>
-      <div className="book-authors">
+        <div className="book-authors">
 
         {authors[0]}
         <br></br>
         {authors[1]}
 
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
-}
-
-export default Book;
 
 Book.propTypes = {
-showThumbnail: PropTypes.string,
-title: PropTypes.string,
-authors: PropTypes.string,
-book: PropTypes.object,
-value: PropTypes.string
+  showThumbnail: PropTypes.string,
+  title: PropTypes.string,
+  authors: PropTypes.string,
+  book: PropTypes.object,
+  value: PropTypes.string
 };

@@ -2,7 +2,6 @@
  // Grateful for guidance from these two walk throughs https://www.youtube.com/watch?v=i6L2jLHV9j8
 //and https://www.youtube.com/watch?v=acJHkd6K5kI&=&feature=youtu.be
 
-
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Search from './Search';
@@ -11,7 +10,8 @@ import * as BooksAPI from './BooksAPI';
 
 import '../App.css';
 
-class BooksApp extends React.Component {
+export default class BooksApp extends React.Component {
+
   constructor(props) {
     super(props)
 
@@ -24,17 +24,13 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then((res) => {
       this.setState({books: res})
       this.setState({shelf: res})
-
     })
   }
 
   shelfMove = (book, shelf) => {
-    BooksAPI.update(book, shelf)
-    .then(res => {
-
+    BooksAPI.update(book, shelf).then(res => {
       BooksAPI.getAll().then(res => this.setState({books: res}))
       this.setState({shelf: res})
-
     })
   }
 
@@ -58,10 +54,7 @@ class BooksApp extends React.Component {
             shelfMove={this.shelfMove}
             />
         )}/>
-
       </div>
     )
   }
 }
-
-export default BooksApp

@@ -8,8 +8,7 @@ import Book from './Book';
 import * as BooksAPI from './BooksAPI';
 import PropTypes from 'prop-types';
 
-
-class Search extends Component {
+export default class Search extends Component {
 
   constructor(props) {
     super(props)
@@ -119,12 +118,10 @@ componentDidMount(book, shelf) {
   }
 }
 
-export default Search;
-
 Search.propTypes = {
-value: PropTypes.string,
-bookSearch: PropTypes.array,
-book: PropTypes.object,
-books: PropTypes.array,
-updatebookSearch: PropTypes.string
+  value: PropTypes.string,
+  bookSearch: PropTypes.array,
+  book: PropTypes.object,
+  books: PropTypes.array,
+  updatebookSearch: PropTypes.string
 };

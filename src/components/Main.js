@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Shelf from './Shelf';
 import PropTypes from 'prop-types';
 
-class Main extends Component {
+export default class Main extends Component {
 
 render() {
 
@@ -41,8 +41,6 @@ const { books, shelfMove } = this.props;
       );
     }
   }
-
-export default Main;
 
 Main.propTypes = {
 shelfMove: PropTypes.func.isRequired,
